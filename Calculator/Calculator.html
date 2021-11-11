@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Yun Zhu">
+    <meta name="email" content="zhu00137@algonquinlive.com">
+    <style>
+        .calculator{
+            background-color: gray;
+            width:550px;
+            height:400px;
+            padding:10px;
+        }
+
+        .display{
+            background-color:rgb(240, 210, 76);
+            height:40px;
+            text-align: right;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 40px;
+            font-weight: bold;
+            margin:10px;
+            padding:10px;
+
+        }
+
+        .keypad{
+            display:grid;
+            grid-template-columns: repeat(4,120px);
+            grid-template-rows: repeat(4,70px);
+            row-gap: 10px;
+            column-gap: 15px;
+            margin-left: 10px;
+        }
+
+        .keypad>button{
+            background-color: white;
+            font-family: 'Times New Roman', Times, serif;
+            font-size:50px;
+            font-weight: 600;
+        }
+
+    </style>
+    <title>Very Simple Calculator</title>
+</head>
+<body>
+    <div class="calculator">
+
+        <div class="display" id="display">
+            	0
+        </div>
+
+        <div class="keypad">
+            <button onclick="display(this)">7</button><button onclick="display(this)">8</button><button onclick="display(this)">9</button><button onclick="display(this)">-</button>
+            <button onclick="display(this)">4</button><button onclick="display(this)">5</button> <button onclick="display(this)">6</button><button onclick="display(this)">/</button>
+            <button onclick="display(this)">1</button><button onclick="display(this)">2</button> <button onclick="display(this)">3</button><button onclick="display(this)">X</button>
+            <button onclick="display(this)">0</button><button onclick="display(this)">C</button> <button onclick="display(this)">=</button><button onclick="display(this)">+</button>
+        </div>
+
+    </div>
+
+    <script>
+       var nums="";//this variable is used to calculate all the numbers and operaters
+       var numDisplay="";// this variable is used to display the number when press button without operater
+        function display(btn){
+            var num = btn.innerText;
+
+            if(num=="+"||num=="/"){
+                document.getElementById("display").innerHTML=numDisplay;
+                document.getElementById("display").innerHTML=eval(nums);
+                nums = eval(nums) + num;
+                numDisplay="";
+            }
+
+            else if(num=="-"){
+                if(nums==""){//if the first number is negative
+                    nums += num;
+                    numDisplay += num;
+                    document.getElementById("display").innerHTML=numDisplay;
+                }
+
+                else if(nums.slice(-1)=="-"){ //if minus a negative number, it equals plus the positive number, so replace the "- -" into "+"
+                    numDisplay += num;
+                    nums = nums.slice(0,-1)+"+";
+                    document.getElementById("display").innerHTML=numDisplay;
+                }
+
+                else{
+                    document.getElementById("display").innerHTML=numDisplay;
+                    document.getElementById("display").innerHTML=eval(nums);
+                    nums = eval(nums) + num;
+                    numDisplay="";
+                }
+
+            }
+            else if(num=="X"){
+                num="*"; //replace the "x" to "*", otherwise cannot calculate
+                document.getElementById("display").innerHTML=numDisplay;
+                document.getElementById("display").innerHTML=eval(nums);
+                nums = eval(nums) + num;
+                numDisplay="";
+            }
+            else if(num=="="){
+                document.getElementById("display").innerHTML = eval(nums);
+                nums="";
+                numDisplay="";
+            }
+            else if(num=="C"){
+                document.getElementById("display").innerHTML="0";
+                nums="";
+                numDisplay="";
+            }
+            else{
+                nums += num;
+                numDisplay += num;
+                document.getElementById("display").innerHTML= numDisplay;
+            }
+        }
+
+    </script>
+</body>
+</html>
